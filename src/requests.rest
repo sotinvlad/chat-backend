@@ -1,0 +1,85 @@
+
+//DIALOG CREATE
+//for create a dialog send array of id's of users
+POST https://localhost:3000/dialogs
+content-type: application/json
+
+{
+    "dialogParticipants": ["61b20cb998c39ca37a0c41a4", "61b0d186c1e3ffdc2bc6a143"]
+}
+
+###
+
+//DIALOG GET
+//for get a dialog send its id
+GET http://localhost:3000/dialogs/61b0d186c1e3ffdc2bc6a143
+
+###
+
+//DIALOG DELETE
+//for delete a dialog send its id
+DELETE http://localhost:3000/user/61b0c960c06796c9ca7ac193
+
+###
+
+//USER CREATE
+//for create a user send json of email, password and fullname
+POST http://localhost:3000/user/registration
+content-type: application/json
+
+{
+    "email": "ilya@yandex.com",
+    "password": "qwerty",
+    "fullname": "Ilya Boytsov"
+}
+
+###
+
+//USER GET
+//for get a user send its id
+GET http://localhost:3000/user/61b84fde22cbe0f3a5c57f18
+
+###
+
+
+//USER DELETE
+//for delete a user send its id
+DELETE http://localhost:3000/user/61b84fde22cbe0f3a5c57f18
+
+###
+
+
+//MESSAGE CREATE
+//for create a message send json of text, dialogId, userId
+POST http://localhost:3000/messages
+content-type: application/json
+
+{
+    "text": "Hello World you too!",
+    "dialogId": "61b8a431868dd6c026c5d50f",
+    "userId": "61b20cb998c39ca37a0c41a4"
+}
+
+###
+
+//MESSAGE GET
+//for get a message send its id
+GET http://localhost:3000/messages?id=61b8a431868dd6c026c5d50f
+
+###
+
+
+//MESSAGE DELETE
+//for delete a message send its id
+DELETE http://localhost:3000/messages?id=61b8aa67296b2b75ffc1fef3
+
+###
+
+//LOGIN 
+POST http://localhost:3000/login
+content-type: application/json
+
+{
+    "email": "sotinvlad@yandex.ru",
+    "password": "qwerty"
+}

@@ -1,13 +1,17 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+
+
 import UserController from './controllers/UserController';
 import DialogController from './controllers/DialogController';
 import MessageController from './controllers/MessageController';
+import createJWT from './utils/createJWT'
 
+dotenv.config();
 const app = express();
-const port = 3000;
-
+const port = process.env.PORT;
 app.use(bodyParser.json());
 mongoose.connect('mongodb://localhost:27017/chat');
 
@@ -27,6 +31,9 @@ app.get('/messages', Message.index)
 app.post('/messages', Message.create)
 app.delete('/messages', Message.delete);
 
+app.post('/login', createJWT)
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
+

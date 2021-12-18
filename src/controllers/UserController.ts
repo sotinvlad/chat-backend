@@ -1,5 +1,6 @@
 import express from "express";
 import UserModel from "../schemas/User";
+import bcrypt, { hash } from 'bcrypt';
 
 
 class UserController { 
@@ -28,10 +29,11 @@ class UserController {
         })
     }
 
-    create(req: express.Request, res: express.Response) {
+    async create(req: express.Request, res: express.Response) {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const postData = {
           email: req.body.email,
-          password: req.body.password,
+          password: hashedPassword,
           fullname: req.body.fullname
         }
         const user = new UserModel(postData);

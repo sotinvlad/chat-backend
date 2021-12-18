@@ -28,16 +28,17 @@ POST http://localhost:3000/user/registration
 content-type: application/json
 
 {
-    "email": "ilya@yandex.com",
+    "email": "test@yandex.com",
     "password": "qwerty",
-    "fullname": "Ilya Boytsov"
+    "fullname": "Test"
 }
 
 ###
 
 //USER GET
 //for get a user send its id
-GET http://localhost:3000/user/61b84fde22cbe0f3a5c57f18
+GET http://localhost:3000/user/61b0d186c1e3ffdc2bc6a143
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNvdGludmxhZEB5YW5kZXgucnUiLCJwYXNzd29yZCI6InF3ZXJ0eSIsImlhdCI6MTYzOTgyNDU0MCwiZXhwIjoxNjM5ODI0NTUwfQ.PGISBSol-QJi_kUDtx75S9gPRCbJlusC4FozsOFfwr0
 
 ###
 
@@ -64,8 +65,8 @@ content-type: application/json
 
 //MESSAGE GET
 //for get a message send its id
-GET http://localhost:3000/messages?id=61b8a431868dd6c026c5d50f
-
+GET http://localhost:3000/messages?id=61b8aa3a296b2b75ffc1fef1
+Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNvdGludmxhZEB5YW5kZXgucnUiLCJwYXNzd29yZCI6InF3ZXJ0eSIsImlhdCI6MTYzOTgyMjUyM30.xqL6R5fB9Eqdz83Pxz3-sbE4GLQ0oL4TxiDY49x3nm8'
 ###
 
 
@@ -80,6 +81,6 @@ POST http://localhost:3000/login
 content-type: application/json
 
 {
-    "email": "sotinvlad@yandex.ru",
+    "email": "test@yandex.com",
     "password": "qwerty"
 }

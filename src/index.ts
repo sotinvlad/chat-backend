@@ -8,11 +8,13 @@ import UserController from './controllers/UserController';
 import DialogController from './controllers/DialogController';
 import MessageController from './controllers/MessageController';
 import createJWT from './utils/createJWT'
+import authenticate from './middlewares/authenticate';
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
 app.use(bodyParser.json());
+app.use(authenticate);
 mongoose.connect('mongodb://localhost:27017/chat');
 
 const User = new UserController;

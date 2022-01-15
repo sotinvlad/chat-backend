@@ -1,5 +1,6 @@
 import express from "express";
 import MessageModel from "../schemas/Message";
+import { io } from './../index';
 
 class MessageController { 
     index(req: express.Request, res: express.Response) {
@@ -26,9 +27,16 @@ class MessageController {
             res.json(`Message has been deleted`);
         })
     }
+    // io.on('connection', (socket: any) => {
+    //     console.log('a user connected, socket: ', socket.id);
+    //     socket.on('USER_SEND_MESSAGE', (message :any) => {
+    //       console.log(message);
+    //       io.emit('MESSAGE_RECEIVED', message);
+    //     })
+    //     socket.emit('SERVER_SEND_MESSAGE', 'welcome');
+    //   });
 
     create(req: express.Request, res: express.Response) {
-        console.log(req.body);
         const postData = {
             text: req.body.text,
             dialogId: req.body.dialogId,
@@ -39,6 +47,7 @@ class MessageController {
         .save()
         .then((data: any) => {
           res.json(data);
+          io.emit('SERVER:SEND_MESSAGE', data);
         })
         .catch((err: any) => res.send(err));
     }

@@ -1,6 +1,17 @@
 import mongoose, { Schema } from 'mongoose';
 import validator from 'validator';
 
+export interface IUser extends Document {
+    email: string;
+    fullname: string;
+    password: string;
+    confirmed: boolean;
+    avatar: string;
+    confirm_hash: string;
+    last_seen: Date;
+    data?: IUser;
+  }
+
 const UserSchema = new Schema({
     email: {
         unique: true,
@@ -21,12 +32,13 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
-    last_seen: Date
+    confirm_hash: String,
+    last_seen: String
 },
 {
     timestamps: true
 });
 
-const UserModel = mongoose.model("User", UserSchema);
+const UserModel = mongoose.model<IUser>("User", UserSchema);
 
 export default UserModel;

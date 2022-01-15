@@ -12,7 +12,8 @@ content-type: application/json
 
 //DIALOG GET
 //for get a dialog send its id
-GET http://localhost:3000/dialogs/61b0d186c1e3ffdc2bc6a143
+GET http://localhost:3000/dialogs/61be09993c1163dc6ce207bd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAeWFuZGV4LmNvbSIsInBhc3N3b3JkIjoicXdlcnR5IiwiaWF0IjoxNjM5ODQ0MjkwLCJleHAiOjE2NDA0NDkwOTB9.pqnUL2BKes-PuGSCKpPzEOpgYOlul6B6lH7ADq-dvd4
 
 ###
 
@@ -28,7 +29,7 @@ POST http://localhost:3000/user/registration
 content-type: application/json
 
 {
-    "email": "test@yandex.com",
+    "email": "test1@yandex.com",
     "password": "qwerty",
     "fullname": "Test"
 }
@@ -37,15 +38,17 @@ content-type: application/json
 
 //USER GET
 //for get a user send its id
-GET http://localhost:3000/user/61b0d186c1e3ffdc2bc6a143
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNvdGludmxhZEB5YW5kZXgucnUiLCJwYXNzd29yZCI6InF3ZXJ0eSIsImlhdCI6MTYzOTgyNDU0MCwiZXhwIjoxNjM5ODI0NTUwfQ.PGISBSol-QJi_kUDtx75S9gPRCbJlusC4FozsOFfwr0
+GET http://localhost:3000/user/61be09993c1163dc6ce207bd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAeWFuZGV4LmNvbSIsInBhc3N3b3JkIjoicXdlcnR5IiwiaWF0IjoxNjM5ODQ0MjkwLCJleHAiOjE2NDA0NDkwOTB9.pqnUL2BKes-PuGSCKpPzEOpgYOlul6B6lH7ADq-dvd4
+
 
 ###
 
 
 //USER DELETE
 //for delete a user send its id
-DELETE http://localhost:3000/user/61b84fde22cbe0f3a5c57f18
+DELETE http://localhost:3000/user/61be09993c1163dc6ce207bd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAeWFuZGV4LmNvbSIsInBhc3N3b3JkIjoicXdlcnR5IiwiaWF0IjoxNjM5ODQ0MjkwLCJleHAiOjE2NDA0NDkwOTB9.pqnUL2BKes-PuGSCKpPzEOpgYOlul6B6lH7ADq-dvd4
 
 ###
 
@@ -53,6 +56,7 @@ DELETE http://localhost:3000/user/61b84fde22cbe0f3a5c57f18
 //MESSAGE CREATE
 //for create a message send json of text, dialogId, userId
 POST http://localhost:3000/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAeWFuZGV4LmNvbSIsInBhc3N3b3JkIjoicXdlcnR5IiwiaWF0IjoxNjQxOTg3NDg1LCJleHAiOjE2NDI1OTIyODV9.R9VTIUUla8_5UWkn-eaxPLU0ZZVCSWx4TVsFSL2peKg
 content-type: application/json
 
 {
@@ -65,8 +69,8 @@ content-type: application/json
 
 //MESSAGE GET
 //for get a message send its id
-GET http://localhost:3000/messages?id=61b8aa3a296b2b75ffc1fef1
-Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNvdGludmxhZEB5YW5kZXgucnUiLCJwYXNzd29yZCI6InF3ZXJ0eSIsImlhdCI6MTYzOTgyMjUyM30.xqL6R5fB9Eqdz83Pxz3-sbE4GLQ0oL4TxiDY49x3nm8'
+GET http://localhost:3000/messages?id=61b0d186c1e3ffdc2bc6a143
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJlbHlpQHlhbmRleC5jb20iLCJwYXNzd29yZCI6InF3ZXJ0eSIsImlhdCI6MTY0MjI2MzI3MSwiZXhwIjoxNjQyODY4MDcxfQ.onyQ5DUeMYVkVOThFzqB3rS4HSul8WU2afunub2Emgk
 ###
 
 
@@ -77,10 +81,10 @@ DELETE http://localhost:3000/messages?id=61b8aa67296b2b75ffc1fef3
 ###
 
 //LOGIN 
-POST http://localhost:3000/login
+POST http://localhost:3000/user/login
 content-type: application/json
 
 {
-    "email": "test@yandex.com",
+    "email": "belyi@yandex.com",
     "password": "qwerty"
 }

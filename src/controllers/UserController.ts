@@ -1,6 +1,6 @@
 import express from "express";
 import UserModel from "../schemas/User";
-import bcrypt, { hash } from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 
 class UserController { 
@@ -42,7 +42,7 @@ class UserController {
         .then((data: any) => {
           res.json(data);
         })
-        .catch((err: any) => res.send(err));
+        .catch((err: any) => res.status(404).send(err));
     }
 }
 

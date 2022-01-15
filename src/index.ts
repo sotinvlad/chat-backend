@@ -2,7 +2,9 @@ import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-
+import http from 'http';
+import { Server } from 'socket.io';
+import cors from 'cors';
 
 import UserController from './controllers/UserController';
 import DialogController from './controllers/DialogController';
@@ -15,14 +17,24 @@ const app = express();
 const port = process.env.PORT;
 app.use(bodyParser.json());
 app.use(authenticate);
+app.use(cors());
+const server = http.createServer(app);
+export const io = new Server(server, {
+  cors: {
+    origin: `*`,
+    methods: ["GET", "POST"]
+  }
+});
 mongoose.connect('mongodb://localhost:27017/chat');
+
 
 const User = new UserController;
 const Dialog = new DialogController;
 const Message = new MessageController;
 
-app.get('/user/:id', User.index);
+app.post('/user/login', createJWT);
 app.post('/user/registration', User.create);
+app.get('/user/:id', User.index);
 app.delete('/user/:id', User.delete);
 
 app.get('/dialogs/:id', Dialog.index)
@@ -33,9 +45,9 @@ app.get('/messages', Message.index)
 app.post('/messages', Message.create)
 app.delete('/messages', Message.delete);
 
-app.post('/login', createJWT)
 
-app.listen(port, () => {
+
+server.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 

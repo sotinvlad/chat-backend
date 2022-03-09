@@ -1,10 +1,8 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-
 import UserModel from './../schemas/User';
 
 const authenticate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    console.log('ИСПОЛНЕНИЕ authentificate....')
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     if (req.path == '/user/login' || req.path == '/user/registration'){
@@ -14,7 +12,7 @@ const authenticate = (req: express.Request, res: express.Response, next: express
     if (token == null) return res.sendStatus(401);
 
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || '', (err, decodedData) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET || '', (err: any, decodedData: any) => {
         if (err) return res.status(401).json(err);
         if (decodedData){
             UserModel.findOneAndUpdate({ email: decodedData.email },{ last_seen: new Date() }, { new: true }, (_:any, user: any) => {

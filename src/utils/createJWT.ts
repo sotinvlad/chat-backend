@@ -18,7 +18,16 @@ export default async (req: express.Request, res: express.Response) => {
         });
     }
     if (user && bcrypt.compareSync(data.password, user.password)) {
-      const accessToken = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET || '', { expiresIn: '7d' })
+      const dataToSign = {
+        _id: user._id,
+        email: user.email,
+        fullname: user.fullname,
+        password: user.password, 
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+        last_seen: user.last_seen
+      }
+      const accessToken = jwt.sign(dataToSign, process.env.ACCESS_TOKEN_SECRET || '', { expiresIn: '7d' })
 
       res.json({
         accessToken: accessToken,

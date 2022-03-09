@@ -1,6 +1,10 @@
 import express from "express";
-import UserModel from "../schemas/User";
 import bcrypt from 'bcrypt';
+import validate from 'validate';
+
+import UserModel from "../schemas/User";
+import registerValidator from "../utils/registerValidator";
+
 
 
 class UserController { 
@@ -30,20 +34,44 @@ class UserController {
     }
 
     async create(req: express.Request, res: express.Response) {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        
         const postData = {
           email: req.body.email,
-          password: hashedPassword,
+          password: req.body.password,
           fullname: req.body.fullname
         }
-        const user = new UserModel(postData);
-        user
-        .save()
-        .then((data: any) => {
-          res.json(data);
+        if (registerValidator(postData) === false){
+            res.status(406).send({msg:'Некорректные данные'});
+        } else {
+            postData.password = await bcrypt.hash(req.body.password, 10);
+            const user = new UserModel(postData);
+            user
+            .save()
+            .then((data: any) => {
+              res.json({msg: 'Регистрация успешна'});
+            })
+            .catch((err: any) => {
+                res.status(404).send({msg: 'Ошибка при создании пользователя'})
+            });
+        }
+        
+    }
+
+    search(req: express.Request, res: express.Response) {
+        const str = req.body.str;
+        UserModel.find({$or: [{ 'fullname': { "$regex": str, "$options": "i" }},{ 'email': { "$regex": str, "$options": "i" }}]}, (err, users) => {
+            if (err){
+                console.log('search req', users)
+                return res.status(404).json({
+                    message: 'Users is not found'
+                });
+                
+            }
+            res.json(users);
         })
-        .catch((err: any) => res.status(404).send(err));
     }
 }
 
-export default UserController;
+const User = new UserController;
+
+export default User;

@@ -1,45 +1,64 @@
 
 //DIALOG CREATE
 //for create a dialog send array of id's of users
-POST https://localhost:3000/dialogs
+POST http://localhost:5000/dialogs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJkY2NmM2FhNTEzNmVmNjhhYmFkYWUiLCJlbWFpbCI6ImJlbHlpQHlhbmRleC5jb20iLCJmdWxsbmFtZSI6IkJlbHlhayBTcWF0ZSIsInBhc3N3b3JkIjoiJDJiJDEwJHlDYWJvL2dxaE5CczE5dU9HNWJ1RE9YUVk4UTNBRndPRXJSRm51c1lnR1R0dmZnTTB3MGF1IiwiY3JlYXRlZEF0IjoiMjAyMS0xMi0xOFQxMTo1ODo0My44ODJaIiwidXBkYXRlZEF0IjoiMjAyMi0wMi0yNlQxMDowNToxMC43MDNaIiwibGFzdF9zZWVuIjoiU2F0IEZlYiAyNiAyMDIyIDEzOjA1OjEwIEdNVCswMzAwICjQnNC-0YHQutCy0LAsINGB0YLQsNC90LTQsNGA0YLQvdC-0LUg0LLRgNC10LzRjykiLCJpYXQiOjE2NDU4Njk5NTgsImV4cCI6MTY0NjQ3NDc1OH0.qYXtlAjfXpg5cL1S06L6uv8a1SNd8CKwTMxeLNBrC1s
 content-type: application/json
 
 {
-    "dialogParticipants": ["61b20cb998c39ca37a0c41a4", "61b0d186c1e3ffdc2bc6a143"]
+    "dialogParticipants": ["61bdccf3aa5136ef68abadae", "61bdcee52c0f13ebd1b63d1c"]
 }
 
 ###
 
 //DIALOG GET
 //for get a dialog send its id
-GET http://localhost:3000/dialogs/61be09993c1163dc6ce207bd
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAeWFuZGV4LmNvbSIsInBhc3N3b3JkIjoicXdlcnR5IiwiaWF0IjoxNjM5ODQ0MjkwLCJleHAiOjE2NDA0NDkwOTB9.pqnUL2BKes-PuGSCKpPzEOpgYOlul6B6lH7ADq-dvd4
+GET http://localhost:5000/dialog/6210b06364377aef56b6c7a9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJlbHlpQHlhbmRleC5jb20iLCJwYXNzd29yZCI6InF3ZXJ0eSIsImlhdCI6MTY0NTc5MjUzMiwiZXhwIjoxNjQ2Mzk3MzMyfQ.LE0FAMnaI9sUl-x8bnatWZGLQBOSpSax89DPqrECQhI
+###
+
+//DIALOGS GET
+//for get all dialog send user's id
+GET http://localhost:5000/dialogs/6210b06364377aef56b6c7a9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJlbHlpQHlhbmRleC5jb20iLCJwYXNzd29yZCI6InF3ZXJ0eSIsImlhdCI6MTY0NTc5MjUzMiwiZXhwIjoxNjQ2Mzk3MzMyfQ.LE0FAMnaI9sUl-x8bnatWZGLQBOSpSax89DPqrECQhI
 
 ###
 
 //DIALOG DELETE
 //for delete a dialog send its id
-DELETE http://localhost:3000/user/61b0c960c06796c9ca7ac193
+DELETE http://localhost:5000/user/61b0c960c06796c9ca7ac193
 
 ###
 
 //USER CREATE
 //for create a user send json of email, password and fullname
-POST http://localhost:3000/user/registration
+POST http://localhost:5000/user/registration
 content-type: application/json
 
 {
-    "email": "test1@yandex.com",
-    "password": "qwerty",
-    "fullname": "Test"
+    "email": "test2@daw.rtwdawwdf",
+    "password": "qweqww",
+    "fullname": "Ter"
 }
+
 
 ###
 
 //USER GET
 //for get a user send its id
-GET http://localhost:3000/user/61be09993c1163dc6ce207bd
+GET http://localhost:5000/user/61be09993c1163dc6ce207bd
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAeWFuZGV4LmNvbSIsInBhc3N3b3JkIjoicXdlcnR5IiwiaWF0IjoxNjM5ODQ0MjkwLCJleHAiOjE2NDA0NDkwOTB9.pqnUL2BKes-PuGSCKpPzEOpgYOlul6B6lH7ADq-dvd4
+###
+
+//USER SEARCH
+//for serch users by fullname or email
+POST http://localhost:5000/user/search
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWJkY2NmM2FhNTEzNmVmNjhhYmFkYWUiLCJlbWFpbCI6ImJlbHlpQHlhbmRleC5jb20iLCJmdWxsbmFtZSI6IkJlbHlhayBTcWF0ZSIsInBhc3N3b3JkIjoiJDJiJDEwJHlDYWJvL2dxaE5CczE5dU9HNWJ1RE9YUVk4UTNBRndPRXJSRm51c1lnR1R0dmZnTTB3MGF1IiwiY3JlYXRlZEF0IjoiMjAyMS0xMi0xOFQxMTo1ODo0My44ODJaIiwidXBkYXRlZEF0IjoiMjAyMi0wMy0wOVQxMDoyNjoxNi44OTJaIiwibGFzdF9zZWVuIjoiV2VkIE1hciAwOSAyMDIyIDEzOjI2OjE2IEdNVCswMzAwICjQnNC-0YHQutCy0LAsINGB0YLQsNC90LTQsNGA0YLQvdC-0LUg0LLRgNC10LzRjykiLCJpYXQiOjE2NDY4MjE3MDMsImV4cCI6MTY0NzQyNjUwM30.OBHAyHCJCwsh1VM0zoydvn1EpbPySBE9zLUEYoKcXUM
+content-type: application/json
+
+{
+    "str":"Хилько"
+}
 
 
 ###
@@ -47,7 +66,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAe
 
 //USER DELETE
 //for delete a user send its id
-DELETE http://localhost:3000/user/61be09993c1163dc6ce207bd
+DELETE http://localhost:5000/user/61be09993c1163dc6ce207bd
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAeWFuZGV4LmNvbSIsInBhc3N3b3JkIjoicXdlcnR5IiwiaWF0IjoxNjM5ODQ0MjkwLCJleHAiOjE2NDA0NDkwOTB9.pqnUL2BKes-PuGSCKpPzEOpgYOlul6B6lH7ADq-dvd4
 
 ###
@@ -55,33 +74,33 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAe
 
 //MESSAGE CREATE
 //for create a message send json of text, dialogId, userId
-POST http://localhost:3000/messages
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAeWFuZGV4LmNvbSIsInBhc3N3b3JkIjoicXdlcnR5IiwiaWF0IjoxNjQxOTg3NDg1LCJleHAiOjE2NDI1OTIyODV9.R9VTIUUla8_5UWkn-eaxPLU0ZZVCSWx4TVsFSL2peKg
+POST http://localhost:5000/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJlbHlpQHlhbmRleC5jb20iLCJwYXNzd29yZCI6InF3ZXJ0eSIsImlhdCI6MTY0NTQzNTc4MiwiZXhwIjoxNjQ2MDQwNTgyfQ._VoKY7j9vSUnbHLimHXDvgllvU8v3jpHYSte0sf5dKg
 content-type: application/json
 
 {
-    "text": "Hello World you too!",
-    "dialogId": "61b8a431868dd6c026c5d50f",
-    "userId": "61b20cb998c39ca37a0c41a4"
+    "text": "qwerrty",
+    "dialogId": "6219fb8f61536d3117f41078",
+    "userId": "61bdccf3aa5136ef68abadae"
 }
 
 ###
 
 //MESSAGE GET
 //for get a message send its id
-GET http://localhost:3000/messages?id=61b0d186c1e3ffdc2bc6a143
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJlbHlpQHlhbmRleC5jb20iLCJwYXNzd29yZCI6InF3ZXJ0eSIsImlhdCI6MTY0MjI2MzI3MSwiZXhwIjoxNjQyODY4MDcxfQ.onyQ5DUeMYVkVOThFzqB3rS4HSul8WU2afunub2Emgk
+GET http://localhost:5000/messages?id=6210b06364377aef56b6c7a9
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJlbHlpQHlhbmRleC5jb20iLCJmdWxsbmFtZSI6IkJlbHlhayBTcWF0ZSIsInBhc3N3b3JkIjoiJDJiJDEwJHlDYWJvL2dxaE5CczE5dU9HNWJ1RE9YUVk4UTNBRndPRXJSRm51c1lnR1R0dmZnTTB3MGF1IiwiY3JlYXRlZEF0IjoiMjAyMS0xMi0xOFQxMTo1ODo0My44ODJaIiwidXBkYXRlZEF0IjoiMjAyMi0wMi0yNVQxMjo0ODozMC43ODJaIiwibGFzdF9zZWVuIjoiRnJpIEZlYiAyNSAyMDIyIDE1OjQ4OjMwIEdNVCswMzAwICjQnNC-0YHQutCy0LAsINGB0YLQsNC90LTQsNGA0YLQvdC-0LUg0LLRgNC10LzRjykiLCJpYXQiOjE2NDU4NjcwODksImV4cCI6MTY0NjQ3MTg4OX0.k8lMyKneRNK2_KOWZumR8QIMpIBNwWcmwmwSoUZUR80
 ###
 
 
 //MESSAGE DELETE
 //for delete a message send its id
-DELETE http://localhost:3000/messages?id=61b8aa67296b2b75ffc1fef3
+DELETE http://localhost:5000/messages?id=61b8aa67296b2b75ffc1fef3
 
 ###
 
 //LOGIN 
-POST http://localhost:3000/user/login
+POST http://localhost:5000/user/login
 content-type: application/json
 
 {

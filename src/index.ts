@@ -37,6 +37,7 @@ app.get('/dialog/:id', Dialog.get);
 app.get('/messages', Message.index);
 app.post('/messages', Message.create);
 app.delete('/messages', Message.delete);
+app.put('/messages', Message.update);
 
 
 instrument(io, { auth: false });

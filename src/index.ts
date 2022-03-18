@@ -34,7 +34,7 @@ app.post('/dialogs', Dialog.create);
 app.delete('/dialogs/:id', Dialog.delete);
 app.get('/dialog/:id', Dialog.get);
 
-app.get('/messages', Message.index);
+app.get('/messages', Message.get);
 app.post('/messages', Message.create);
 app.delete('/messages', Message.delete);
 app.put('/messages', Message.update);

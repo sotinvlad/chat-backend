@@ -4,10 +4,10 @@ import MessageModel from "../schemas/Message";
 import { io } from './../index';
 
 class MessageController { 
-    index(req: express.Request, res: express.Response) {
+    get(req: express.Request, res: express.Response) {
         const dialogId = req.query.id;
         MessageModel
-        .find({ dialogId: dialogId })
+        .find({dialogId: dialogId})
         .populate('user')
         .exec((err: any, Messages: any) => {
             if (err){
@@ -15,6 +15,13 @@ class MessageController {
                     message: 'Messages are not found'
                 });
             }
+            Messages.forEach((msg: any) => {
+                if (msg.user._id.toString() !== req.user._id.toString()){
+                    msg.isReaded = true;
+                    msg.save();
+                    io.to('dialogId:' + dialogId).emit('SERVER:MESSAGE_UPDATE', msg);
+                }
+            })
             res.json(Messages);
         })
     }
@@ -75,7 +82,6 @@ class MessageController {
             io.to('dialogId:' + dialog._id).emit('SERVER:UPDATE_DIALOG', dialog);
           })
           MessageModel.populate(message, {path:'user'}, (err, data) => {
-              console.log('SERVER:SEND_MESSAGE', data);
             io.to('dialogId:' + postData.dialogId).emit('SERVER:SEND_MESSAGE', data);
           });
         })

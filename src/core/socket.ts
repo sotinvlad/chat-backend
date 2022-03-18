@@ -3,6 +3,7 @@ import http from 'http';
 import jwt from 'jsonwebtoken';
 import DialogModel from '../schemas/Dialog';
 import { setInterval } from 'timers';
+import MessageModel from '../schemas/Message';
 
 const createSocketServer = (server: http.Server) => {
   const io = new Server(server, {
@@ -34,6 +35,16 @@ const createSocketServer = (server: http.Server) => {
       dialogs.forEach((dialog: any) => socket.join('dialogId:' + dialog._id))
     })
     setInterval(() => socket.emit('SERVER:UPDATE_STATUS'), 10000);
+    socket.on('CLIENT:MESSAGE_IS_READED', (messageId) => {
+      MessageModel
+      .findByIdAndUpdate(messageId, { isReaded: true } as any, { new: true})
+      .populate('user')
+      .exec((err, message) => {
+        if (!err){
+          io.to('dialogId:' + message.dialogId.toString()).emit('SERVER:MESSAGE_UPDATE', message);
+        }
+      })
+    })
   });
 
   return io;

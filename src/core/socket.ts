@@ -1,8 +1,9 @@
-import { Server } from 'socket.io';
 import http from 'http';
 import jwt from 'jsonwebtoken';
-import DialogModel from '../schemas/Dialog';
 import { setInterval } from 'timers';
+import { Server } from 'socket.io';
+
+import DialogModel from '../schemas/Dialog';
 import MessageModel from '../schemas/Message';
 
 const createSocketServer = (server: http.Server) => {

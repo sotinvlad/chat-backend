@@ -5,7 +5,7 @@ import UserModel from './../schemas/User';
 const authenticate = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
-    if (req.path == '/user/login' || req.path == '/user/registration'){
+    if (req.path == '/user/login' || req.path == '/user/registration' || req.path.includes('/file')){
         next();
         return;
     }

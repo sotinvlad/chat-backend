@@ -12,6 +12,9 @@ const MessageSchema = new Schema({
         ref: "User",
         required: true
     },
+    attachments: {
+        type: [String]
+    },
     isReaded: {
         type: Boolean,
         default: false

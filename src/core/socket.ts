@@ -28,7 +28,7 @@ const createSocketServer = (server: http.Server) => {
 
   io.on("connection", (socket) => {
     console.log(`${socket.data.email} connected`);
-    DialogModel.where({'dialogParticipants': socket.data._id}).find((err: any, dialogs: any) => {
+    DialogModel.where({'dialogParticipants.user': socket.data._id}).find((err: any, dialogs: any) => {
       if (err){
           console.log(err);
           return;
@@ -43,6 +43,15 @@ const createSocketServer = (server: http.Server) => {
       .exec((err, message) => {
         if (!err){
           io.to('dialogId:' + message.dialogId.toString()).emit('SERVER:MESSAGE_UPDATE', message);
+          DialogModel.findById(message.dialogId).populate('lastMessage').populate('dialogParticipants.user').exec((_:any, dialog: any) => {
+            dialog.dialogParticipants.forEach((obj: any, index: any, dialogParticipants: any) =>{
+              console.log(obj.user._id, socket.data._id)
+              if(obj.user._id.toString() === socket.data._id.toString()){
+                dialogParticipants[index].unreadedMessages = 0;
+              }
+            })
+            dialog.save().then(() => io.to('dialogId:' + dialog._id).emit('SERVER:UPDATE_DIALOG', dialog));
+          })
         }
       })
     })

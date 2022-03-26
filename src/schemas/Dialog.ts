@@ -1,15 +1,23 @@
 import mongoose, { Schema } from 'mongoose';
 
 const DialogSchema = new Schema({
-    dialogParticipants: [{
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    }],
+    dialogParticipants: [
+        {
+            user : {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+                required: true
+            },
+            unreadedMessages: {
+                type: Number,
+                default: 0,
+            }
+        }
+],
     lastMessage: {
         type: Schema.Types.ObjectId,
         ref: "Message"
-    }
+    },
 },
 {
     timestamps: true

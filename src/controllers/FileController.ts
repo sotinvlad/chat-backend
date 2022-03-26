@@ -3,7 +3,6 @@ import express from "express";
 import { io } from "./../index";
 import MessageModel from "../schemas/Message";
 import uploadsFolderPath from "../uploads/uploads";
-import fs from "fs";
 
 class FileController { 
     upload(req: any, res: express.Response) {

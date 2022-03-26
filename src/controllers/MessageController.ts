@@ -6,6 +6,15 @@ import { io } from './../index';
 class MessageController { 
     get(req: express.Request, res: express.Response) {
         const dialogId = req.query.id;
+        DialogModel.findById(dialogId).populate('lastMessage').populate('dialogParticipants.user').exec((_:any, dialog: any) => {
+            dialog.dialogParticipants.forEach((obj: any, index: any, dialogParticipants: any) =>{
+                console.log(obj.user._id, req.user._id)
+              if(obj.user._id.toString() === req.user._id.toString()){
+                dialogParticipants[index].unreadedMessages = 0;
+              }
+            })
+            dialog.save().then(() => io.to('dialogId:' + dialog._id).emit('SERVER:UPDATE_DIALOG', dialog));
+        })
         MessageModel
         .find({dialogId: dialogId})
         .populate('user')
@@ -37,7 +46,7 @@ class MessageController {
             if (req.user._id.toString() === message.user.toString()) {
                 message.remove();
                 io.to('dialogId:' + message.dialogId).emit('SERVER:MESSAGE_DELETE', message._id);
-                DialogModel.findById(message.dialogId).populate('lastMessage').populate('dialogParticipants').exec((err, dialog) => {
+                DialogModel.findById(message.dialogId).populate('lastMessage').populate('dialogParticipants.user').exec((err, dialog) => {
                     MessageModel.findOne({dialogId: dialog._id}).sort('-createdAt').exec((err, msg) => {
                         if (msg) {
                             dialog.lastMessage = msg;
@@ -76,10 +85,18 @@ class MessageController {
         .save()
         .then((message: any) => {
           res.json(message);
-          DialogModel.findById(postData.dialogId).populate('lastMessage').populate('dialogParticipants').exec((_:any, dialog: any) => {
-            dialog.lastMessage = message;
-            dialog.save();
-            io.to('dialogId:' + dialog._id).emit('SERVER:UPDATE_DIALOG', dialog);
+          DialogModel.findById(postData.dialogId).populate('lastMessage').populate('dialogParticipants.user').exec((_:any, dialog: any) => {
+            MessageModel.find({$and:[ { dialogId: dialog._id }, { user: postData.user }, { isReaded: false } ]}, (err, messages)=> {
+                dialog.dialogParticipants.forEach((obj: any, index: any, dialogParticipants: any) => {
+                    if(obj.user._id.toString() !== postData.user){
+                        dialogParticipants[index].unreadedMessages = messages.length;
+                    }
+                })
+                dialog.lastMessage = message;
+                console.log(dialog);
+                dialog.save().then(() => io.to('dialogId:' + dialog._id).emit('SERVER:UPDATE_DIALOG', dialog));
+            })
+            
           })
           MessageModel.populate(message, {path:'user'}, (err, data) => {
             io.to('dialogId:' + postData.dialogId).emit('SERVER:SEND_MESSAGE', data);
@@ -100,7 +117,7 @@ class MessageController {
                 message.text = messageText;
                 message.save().then(() => {
                     io.to('dialogId:' + message.dialogId._id).emit('SERVER:MESSAGE_UPDATE', message);
-                    DialogModel.findById(message.dialogId).populate('lastMessage').populate('dialogParticipants').exec((err, dialog) => {
+                    DialogModel.findById(message.dialogId).populate('lastMessage').populate('dialogParticipants.user').exec((err, dialog) => {
                         io.to('dialogId:' + dialog._id).emit('SERVER:UPDATE_DIALOG', dialog);
                     })
                 })

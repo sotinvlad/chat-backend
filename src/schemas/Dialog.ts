@@ -11,6 +11,10 @@ const DialogSchema = new Schema({
             unreadedMessages: {
                 type: Number,
                 default: 0,
+            },
+            isTyping: {
+                type: Boolean,
+                default: false
             }
         }
 ],

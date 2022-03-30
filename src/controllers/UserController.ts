@@ -61,7 +61,6 @@ class UserController {
         const str = req.body.str;
         UserModel.find({$or: [{ 'fullname': { "$regex": str, "$options": "i" }},{ 'email': { "$regex": str, "$options": "i" }}]}, (err, users) => {
             if (err){
-                console.log('search req', users)
                 return res.status(404).json({
                     message: 'Users is not found'
                 });

@@ -37,6 +37,7 @@ const createSocketServer = (server: http.Server) => {
     })
     setInterval(() => socket.emit('SERVER:UPDATE_STATUS'), 10000);
     socket.on('CLIENT:MESSAGE_IS_READED', (messageId) => {
+      console.log('CLIENT:MESSAGE_IS_READED')
       MessageModel
       .findByIdAndUpdate(messageId, { isReaded: true } as any, { new: true})
       .populate('user')
@@ -45,12 +46,28 @@ const createSocketServer = (server: http.Server) => {
           io.to('dialogId:' + message.dialogId.toString()).emit('SERVER:MESSAGE_UPDATE', message);
           DialogModel.findById(message.dialogId).populate('lastMessage').populate('dialogParticipants.user').exec((_:any, dialog: any) => {
             dialog.dialogParticipants.forEach((obj: any, index: any, dialogParticipants: any) =>{
-              console.log(obj.user._id, socket.data._id)
+
               if(obj.user._id.toString() === socket.data._id.toString()){
                 dialogParticipants[index].unreadedMessages = 0;
               }
             })
             dialog.save().then(() => io.to('dialogId:' + dialog._id).emit('SERVER:UPDATE_DIALOG', dialog));
+          })
+        }
+      })
+    });
+    socket.on('CLIENT:IS_TYPING', ({dialogId, userId}) => {
+      DialogModel.findById(dialogId).populate('lastMessage').populate('dialogParticipants.user').exec((err: any, dialog: any) => {
+        if(!err){
+          dialog.dialogParticipants.find((i: any) => i.user._id.toString() === userId.toString()).isTyping = true;
+          dialog.save().then(() => {
+            io.to('dialogId:' + dialogId).emit('SERVER:UPDATE_DIALOG', dialog);
+            setTimeout(() => {
+              dialog.dialogParticipants.find((i: any) => i.user._id.toString() === userId.toString()).isTyping = false;
+              dialog.save().then(() => {
+                io.to('dialogId:' + dialogId).emit('SERVER:UPDATE_DIALOG', dialog);
+              })
+            }, 10000)
           })
         }
       })

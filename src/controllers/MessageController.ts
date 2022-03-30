@@ -5,10 +5,10 @@ import { io } from './../index';
 
 class MessageController { 
     get(req: express.Request, res: express.Response) {
+        console.log('message.get')
         const dialogId = req.query.id;
         DialogModel.findById(dialogId).populate('lastMessage').populate('dialogParticipants.user').exec((_:any, dialog: any) => {
             dialog.dialogParticipants.forEach((obj: any, index: any, dialogParticipants: any) =>{
-                console.log(obj.user._id, req.user._id)
               if(obj.user._id.toString() === req.user._id.toString()){
                 dialogParticipants[index].unreadedMessages = 0;
               }
@@ -26,9 +26,10 @@ class MessageController {
             }
             Messages.forEach((msg: any) => {
                 if (msg.user._id.toString() !== req.user._id.toString()){
-                    msg.isReaded = true;
-                    msg.save();
-                    io.to('dialogId:' + dialogId).emit('SERVER:MESSAGE_UPDATE', msg);
+                    if (msg.isReaded === false){
+                        msg.isReaded = true;
+                        msg.save().then(() => io.to('dialogId:' + dialogId).emit('SERVER:MESSAGE_UPDATE', msg));    
+                    }    
                 }
             })
             res.json(Messages);
@@ -93,7 +94,7 @@ class MessageController {
                     }
                 })
                 dialog.lastMessage = message;
-                console.log(dialog);
+                dialog.dialogParticipants.find((obj: any) => obj.user._id.toString() === postData.user).isTyping = false;
                 dialog.save().then(() => io.to('dialogId:' + dialog._id).emit('SERVER:UPDATE_DIALOG', dialog));
             })
             
@@ -108,6 +109,7 @@ class MessageController {
     update(req: express.Request, res: express.Response){
         const messageId = req.body.id;
         const messageText = req.body.text;
+        console.log('message update')
         MessageModel
         .findById(messageId, (err: any, message: any) => {
             if (err) {

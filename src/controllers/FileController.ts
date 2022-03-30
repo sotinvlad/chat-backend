@@ -6,6 +6,7 @@ import uploadsFolderPath from "../uploads/uploads";
 
 class FileController { 
     upload(req: any, res: express.Response) {
+        console.log('upload req')
         const messageId = req.params.id;
         const attachments = req.files.files.map((file: any) => file.filename);
         MessageModel

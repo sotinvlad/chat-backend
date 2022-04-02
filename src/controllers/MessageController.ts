@@ -5,7 +5,6 @@ import { io } from './../index';
 
 class MessageController { 
     get(req: express.Request, res: express.Response) {
-        console.log('message.get')
         const dialogId = req.query.id;
         DialogModel.findById(dialogId).populate('lastMessage').populate('dialogParticipants.user').exec((_:any, dialog: any) => {
             dialog.dialogParticipants.forEach((obj: any, index: any, dialogParticipants: any) =>{

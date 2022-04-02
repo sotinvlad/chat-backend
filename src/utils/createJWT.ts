@@ -3,20 +3,24 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 import UserModel from '../schemas/User';
-
+import { decodeRailFenceCipher } from './encoderDecoder';
 
 export default async (req: express.Request, res: express.Response) => {
 
   const data = {
     email: req.body.email,
-    password: req.body.password
+    password: decodeRailFenceCipher(req.body.password,3)
   }
+  console.log(data)
   UserModel.findOne({ email: data.email }, (err: any, user: any) => {
     if (err){
         return res.status(500).json({
             message: 'Internal error'
         });
     }
+    console.log('login', data.password, user.password);
+    console.log(bcrypt.compareSync(data.password, user.password));
+
     if (user && bcrypt.compareSync(data.password, user.password)) {
       const dataToSign = {
         _id: user._id,

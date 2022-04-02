@@ -17,12 +17,14 @@ class DialogController {
 
     delete(req: express.Request, res: express.Response) {
         const id: String = req.params.id;
-        DialogModel.findByIdAndDelete(id, (err: any, user: any) => {
+        DialogModel.findByIdAndDelete(id, (err: any, dialog: any) => {
             if (err){
                 return res.status(404).json({
                     message: 'Dialog is not found'
                 });      
             }
+            console.log(dialog)
+            io.to('dialogId:' + dialog._id).emit('SERVER:DIALOG_DELETED', dialog._id);
             res.json(`Dialog has been deleted`);
         })
     }

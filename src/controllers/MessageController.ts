@@ -78,7 +78,8 @@ class MessageController {
         const postData = {
             text: req.body.text,
             dialogId: req.body.dialogId,
-            user: req.body.userId
+            user: req.body.userId,
+            isAudio: req.body.isAudio
         }
         const Message = new MessageModel(postData);
         Message

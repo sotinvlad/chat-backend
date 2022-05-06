@@ -18,6 +18,14 @@ const MessageSchema = new Schema({
     isReaded: {
         type: Boolean,
         default: false
+    }, 
+    isAudio: {
+        type: Boolean,
+        default: false
+    },
+    audio: {
+        type: String,
+        default: null
     }
 },
 {

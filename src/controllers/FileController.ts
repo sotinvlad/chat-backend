@@ -14,6 +14,14 @@ class FileController {
         .populate('user')
         .exec((err: any, message) => {
             if(!err){
+                if (message.isAudio){
+                    message.audio = attachments[0];
+                    message.save().then((msg: any) => {
+                        io.to('dialogId:' + message.dialogId).emit('SERVER:MESSAGE_UPDATE', msg);
+                    })
+                    res.status(200).json({ message: 'audio uploaded successfully'});
+                    return;
+                }
                 message.attachments = attachments;
                 message.save().then((msg: any) => {
                     io.to('dialogId:' + message.dialogId).emit('SERVER:MESSAGE_UPDATE', msg);
